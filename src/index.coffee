@@ -13,6 +13,7 @@ module.exports = (options, cssObj) ->
   do getClasses = (cssObj) ->
     for klass, val of cssObj
       parentClass = cssStack.join '-'
+      className = parentClass + '-' + klass
       
       if klass is '_'
         if typeof val isnt 'string'
@@ -20,9 +21,10 @@ module.exports = (options, cssObj) ->
             'TeaClass Error: _ property must be a string: ' + parentClass
         css += "\n.#{parentClass}{\n#{val}\n}"
         
+      else if typeof val is 'string'
+        css += "\n.#{className}{\n#{val}\n}"
+      
       else
-        className = parentClass + '-' + klass
-        
         if klass of classes
           throw new Error 'TeaClass Error: Duplicate class name: ' + className
             
