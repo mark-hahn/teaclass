@@ -1,0 +1,19 @@
+{
+  "name": "teaclass",
+  "version": "1.0.0",
+  "description": "Generate css and accessor functions from a javascript object with namespace and nested class names",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mark-hahn/teaclass.git"
+  },
+  "keywords": [
+    "css", "teacup", "namespace", "javascript", "coffeescript"
+  ],
+  "author": "Mark Hahn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mark-hahn/teaclass/issues"
+  },
+  "homepage": "https://github.com/mark-hahn/teaclass#readme"
+}
