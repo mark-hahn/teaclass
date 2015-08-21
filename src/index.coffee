@@ -1,8 +1,44 @@
 
 log = (args...) -> console.log 'TCLAS:', args...
 
-module.exports = (cssObj, options) ->
+module.exports = (options, cssObj) ->
+  if arguments.length < 2
+    cssObj = options
+    options = {}
   
+  classes  = {}
+  cssStack = [options.namespace ? 'global']
+  css = ''
   
-  
-  
+  do getClasses = (cssObj) ->
+    for klass, val of cssObj
+      parentClass = cssStack.join '-'
+      
+      if klass is '_'
+        if typeof val isnt 'string'
+          throw new Error \
+            'TeaClass Error: _ property must be a string: ' + parentClass
+        css += "\n.#{parentClass}{\n#{val}\n}"
+        
+      else
+        className = parentClass + '-' + klass
+        
+        if klass of classes
+          throw new Error 'TeaClass Error: Duplicate class name: ' + className
+            
+        classes[klass] = className
+        
+        if typeof val is 'object'
+          cssStack.push klass
+          getClasses val
+          cssStack.pop()
+          
+        else
+          throw new Error \
+            'TeaClass Error: property must be _ or an object: ' + className
+      
+  (document.head.appendChild document.createElement('style')).textContent = css + '\n'
+
+  (klass, ele = document.body) ->
+    ele.querySelector '.' + classes[klass]
+    
